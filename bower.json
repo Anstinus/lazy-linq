@@ -31,7 +31,10 @@
     "bower_components",
     "test",
     "tests",
-    ".tmp"
+    ".tmp",
+    "src",
+    "linq.js",
+    "gulpfile.js"
   ],
   "dependencies": {
     "babel-polyfill": "~0.0.1"
