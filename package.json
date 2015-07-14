@@ -4,12 +4,16 @@
   "description": "A full port of LINQ for javascript. It works fully in 'lazy' mode for the best performance.",
   "main": "linq.js",
   "scripts": {
-    "test": "gulp test:es5"
+    "test": "gulp test:es5",
+    "build": "gulp build"
   },
   "homepage": "https://github.com/Anstinus/lazy-linq/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Anstinus/lazy-linq.git"
+    "url": "git://github.com/Anstinus/lazy-linq.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Anstinus/lazy-linq/issues"
   },
   "keywords": [
     "linq",
