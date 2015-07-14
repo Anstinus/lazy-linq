@@ -21,6 +21,10 @@
     "node"
   ],
   "homepage": "https://github.com/Anstinus/lazy-linq/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Anstinus/lazy-linq.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
