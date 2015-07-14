@@ -1,0 +1,27 @@
+{
+  "name": "lazy-linq",
+  "version": "1.0.0",
+  "authors": [
+    "anstinus <anstinus@gmail.com>"
+  ],
+  "description": "A full port of LINQ for javascript. It works fully in 'lazy' mode for the best performance.",
+  "main": "linq-browser.js",
+  "keywords": [
+    "linq",
+    "lazy",
+    "deferred",
+    "performance",
+    "algorithm"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "babel-polyfill": "~0.0.1"
+  }
+}
