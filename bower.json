@@ -14,12 +14,20 @@
     "algorithm"
   ],
   "license": "MIT",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "homepage": "https://github.com/Anstinus/lazy-linq/",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    ".tmp"
   ],
   "dependencies": {
     "babel-polyfill": "~0.0.1"

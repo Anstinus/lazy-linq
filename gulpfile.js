@@ -64,4 +64,4 @@ gulp.task('test:es5', ['clean:tmp'], function (done) {
     .pipe(jasmine());
 })
 
-gulp.task('default', [], function () {});
+gulp.task('default', ['build'], function () {});

@@ -6,6 +6,11 @@
   "scripts": {
     "test": "gulp test:es5"
   },
+  "homepage": "https://github.com/Anstinus/lazy-linq/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anstinus/lazy-linq.git"
+  },
   "keywords": [
     "linq",
     "lazy",
