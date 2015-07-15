@@ -75,7 +75,7 @@ gulp.src('node_modules/lazy-linq/src/linq.js')
 // assuming index.js is in 'src/app/' folder
 import * as linq from 'components/linq/linq';
 
-// then you could then attach 'linq' to global namespace:
+// then you could attach 'linq' to global namespace for convenience:
 this.linq = linq; 
   
 // or any other way suiting your code. E.g. in `angular`:
@@ -89,7 +89,7 @@ angular.module('myModule').constant('linq', linq); // make 'linq' be injectable 
 // assuming index.js is in 'src/app/' folder
 import * as linq from '../../node_components/lazy-linq/linq';
 ```
-That's all. `webpack` should be able to check dependencies and pack linq.js and babel runtime together into your packed index.js.
+That's it. `webpack` should be able to check dependencies and pack linq.js and babel runtime together into your packed index.js.
 
 
 ## Tutorial
