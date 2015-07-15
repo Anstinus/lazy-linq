@@ -42,7 +42,7 @@ data.select(function(x) { return x * 2}).forEach(function(x) { console.log(x); }
 ```bash
 bower install lazy-linq
 ```
-This would also install the dependency [babel-polyfill](https://github.com/nicksrandall/babel-polyfill).
+This would also auto install the dependency [babel-polyfill](https://github.com/nicksrandall/babel-polyfill).
 
 * Include `browser-polyfill.js` and 'linq-browser.js' to your `index.html`. 
 ```html
@@ -59,6 +59,38 @@ data.select(function(x) { return x * 2}).forEach(function(x) { console.log(x); }
 // 4
 // 6
 ```
+
+### Use in browsers when you're already using ES6
+
+You should use the linq code written in ES6 rather than the transpired one and feed it to your ES6 transpiring engine along with all your other js files.
+
+* suggest to copy the source file to 'local' location first. This could avoid many problems...
+```js
+gulp.src('node_modules/lazy-linq/src/linq.js')
+  .pipe(gulp.dest('src/app/components/linq/'));
+```
+
+* `import` it in your `index.js`
+```js
+// assuming index.js is in 'src/app/' folder
+import * as linq from 'components/linq/linq';
+
+// then you could then attach 'linq' to global namespace:
+this.linq = linq; 
+  
+// or any other way suiting your code. E.g. in `angular`:
+angular.module('myModule').constant('linq', linq); // make 'linq' be injectable in controller/service/etc.
+```
+
+#### Specially when you are using `webpack` and [babel-loader](https://github.com/babel/babel-loader) (with `runtime` option)
+
+* Simplely `import` the transpired linq.js in you `index.js`
+```js
+// assuming index.js is in 'src/app/' folder
+import * as linq from '../../node_components/lazy-linq/linq';
+```
+That's all. `webpack` should be able to check dependencies and pack linq.js and babel runtime together into your packed index.js.
+
 
 ## Tutorial
 
