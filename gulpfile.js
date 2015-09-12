@@ -7,7 +7,6 @@ var concat = require('gulp-concat');
 
 function getBabelOption(isForBrower) {
   var babelOption = {
-    stage: 0,
     loose: 'all',
     modules: 'umd',
     comments: false

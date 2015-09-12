@@ -574,17 +574,19 @@ describe('linq lib -> eval members ->', function () {
     });
 
     describe('testee name', function () {
-      let data = ['aa', 'ab', 'bb', 'cc'].asEnumerable();
+      let data = ['aa', 'ab', 'bb', 'cc', 'bb'].asEnumerable();
 
-      it('should work as GroupBy(). here we only test one case', function () {
-        let map = data.toMap(x => x[0], y => y, (x1, z) => z.asEnumerable().count());
-        expect(map.size).toBe(3);
-        expect(map.has('a')).toBe(true);
-        expect(map.has('b')).toBe(true);
-        expect(map.has('c')).toBe(true);
-        expect(map.get('a')).toBe(2);
-        expect(map.get('b')).toBe(1);
-        expect(map.get('c')).toBe(1);
+      it('should work with duplicated keys.', function () {
+        let map = data.toMap(x => x, y => y[0]);
+        expect(map.size).toBe(4);
+        expect(map.has('aa')).toBe(true);
+        expect(map.has('ab')).toBe(true);
+        expect(map.has('bb')).toBe(true);
+        expect(map.has('cc')).toBe(true);
+        expect(map.get('aa')).toBe('a');
+        expect(map.get('ab')).toBe('a');
+        expect(map.get('bb')).toBe('b');
+        expect(map.get('cc')).toBe('c');
       });
     });
   });

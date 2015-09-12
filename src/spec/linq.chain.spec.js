@@ -133,41 +133,52 @@ describe('linq lib -> chain members ->', function () {
     it('when all parameters are default, should use element themselves as key and value', function () {
       let result = data.groupBy().toArray();
       expect(result.length).toBe(3);
-      expect(result[0]).toEqual([1, [1, 1]]);
-      expect(result[1]).toEqual([2, [2]]);
-      expect(result[2]).toEqual([3, [3]]);
+      expect(result[0].key).toEqual(1);
+      expect(result[0].toArray()).toEqual([1, 1]);
+      expect(result[1].key).toEqual(2);
+      expect(result[1].toArray()).toEqual([2]);
+      expect(result[2].key).toEqual(3);
+      expect(result[2].toArray()).toEqual([3]);
     });
 
     it('when @keySelector is custom, should use @keySelector(element) as key', function () {
       let result = data.groupBy(x => x % 2).toArray();
       expect(result.length).toBe(2);
-      expect(result[0]).toEqual([1, [1, 3, 1]]);
-      expect(result[1]).toEqual([0, [2]]);
+      expect(result[0].key).toEqual(1);
+      expect(result[0].toArray()).toEqual([1, 3, 1]);
+      expect(result[1].key).toEqual(0);
+      expect(result[1].toArray()).toEqual([2]);
     });
 
     it('when @valueSelector is custom, should use @valueSelector(element) as value', function () {
       let result = data.groupBy(x => x, y => y * -1).toArray();
       expect(result.length).toBe(3);
-      expect(result[0]).toEqual([1, [-1, -1]]);
-      expect(result[1]).toEqual([2, [-2]]);
-      expect(result[2]).toEqual([3, [-3]]);
+      expect(result[0].key).toEqual(1);
+      expect(result[0].toArray()).toEqual([-1, -1]);
+      expect(result[1].key).toEqual(2);
+      expect(result[1].toArray()).toEqual([-2]);
+      expect(result[2].key).toEqual(3);
+      expect(result[2].toArray()).toEqual([-3]);
     });
 
     it('when @resultTrans is custom, should use @resultTrans(key, valSeq) as final value', function () {
       let result = data.groupBy(x => x, y => y, (key, valSeq) => valSeq.asEnumerable().sum()).toArray();
       expect(result.length).toBe(3);
-      expect(result[0]).toEqual([1, 2]);
-      expect(result[1]).toEqual([2, 2]);
-      expect(result[2]).toEqual([3, 3]);
+      expect(result[0]).toEqual(2);
+      expect(result[1]).toEqual(2);
+      expect(result[2]).toEqual(3);
     });
 
     it('when @keyEqual is custom, should use it to determine whether two keys are equal or not', function () {
       let data = ['ab', 'bc', 'aa', 'cc'].asEnumerable();
       let result = data.groupBy(...[, , , (x, y) => x[0] === y[0]]).toArray();
       expect(result.length).toBe(3);
-      expect(result[0]).toEqual(['ab', ['ab', 'aa']]);
-      expect(result[1]).toEqual(['bc', ['bc']]);
-      expect(result[2]).toEqual(['cc', ['cc']]);
+      expect(result[0].key).toEqual('ab');
+      expect(result[0].toArray()).toEqual(['ab', 'aa']);
+      expect(result[1].key).toEqual('bc');
+      expect(result[1].toArray()).toEqual(['bc']);
+      expect(result[2].key).toEqual('cc');
+      expect(result[2].toArray()).toEqual(['cc']);
     });
   });
 

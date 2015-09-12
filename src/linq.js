@@ -221,9 +221,9 @@ function joinImpl(
     for (let x of _this) {
       for (let yg of yGroups) {
         let xKey = thisKeySelector(x);
-        let yKey = yg[0];
+        let yKey = yg.key;
         if (equal(xKey, yKey)) {
-          let ySeq = yg[1];
+          let ySeq = yg;
           if (isGroupJoin) {
             yield binaryTrans(x, ySeq);
           } else {
@@ -399,7 +399,7 @@ class Enumerable {
     });
   }
 
-  groupBy(keySelector = defaultSelector, valueSelector = defaultSelector, resultTrans = (key, valSeq) => valSeq, keyEqual) {
+  groupBy(keySelector = defaultSelector, valueSelector = defaultSelector, resultTrans, keyEqual) {
     let _this = this;
     if (keyEqual) { // for custom @keyEqual
       return new Enumerable(function* () {
@@ -419,7 +419,13 @@ class Enumerable {
           existingGroup.values.push(val);
         }
         for (let group of groups) {
-          yield [group.key, resultTrans(group.key, group.values)];
+          if (resultTrans) {
+            yield resultTrans(group.key, group.values);
+          } else {
+            let result = asEnumerable(group.values);
+            result.key = group.key;
+            yield result;
+          }
         }
       });
     } else { // optimization for default @keyEqual
@@ -434,7 +440,13 @@ class Enumerable {
           seqMap.get(key).push(val);
         }
         for (let [key, valSeq] of seqMap) {
-          yield [key, resultTrans(key, valSeq)];
+          if (resultTrans) {
+            yield resultTrans(key, valSeq);
+          } else {
+            let result = asEnumerable(valSeq);
+            result.key = key;
+            yield result;
+          }
         }
       });
 
@@ -864,9 +876,8 @@ class Enumerable {
     return result;
   }
 
-  toMap(keySelector, valueSelector, resultTrans) {
-    let grouped = this.groupBy(keySelector, valueSelector, resultTrans);
-    return new Map(grouped);
+  toMap(keySelector, valueSelector) {
+    return new Map(this.select(x => [keySelector(x), valueSelector(x)]));
   }
 
   forEach(op) {
