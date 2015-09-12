@@ -1,6 +1,6 @@
 {
   "name": "lazy-linq",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A full port of LINQ for javascript. It works fully in 'lazy' mode for the best performance.",
   "main": "linq.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "algorithm"
   ],
   "author": {
-    "name": "Anstinus",
+    "name": "anstinus",
     "email": "anstinus@gmail.com"
   },
   "license": "MIT",
