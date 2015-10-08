@@ -11,6 +11,12 @@
     global.linq = mod.exports;
   }
 })(this, function (exports, _babelRuntimeHelpersClassCallCheck, _babelRuntimeRegenerator, _babelRuntimeCoreJsGetIterator, _babelRuntimeCoreJsSymbolIterator, _babelRuntimeCoreJsNumberIsInteger, _babelRuntimeCoreJsMap, _babelRuntimeCoreJsSet) {
+  /* @license
+   * linq for javascript
+   * Authors: Anstinus@gmail.com
+   * License: MIT
+   */
+
   'use strict';
 
   exports.__esModule = true;
@@ -608,14 +614,14 @@
           case 24:
             yg = _ref7;
             xKey = thisKeySelector(x);
-            yKey = yg[0];
+            yKey = yg.key;
 
             if (!equal(xKey, yKey)) {
               context$2$0.next = 50;
               break;
             }
 
-            ySeq = yg[1];
+            ySeq = yg;
 
             if (!isGroupJoin) {
               context$2$0.next = 34;
@@ -1341,14 +1347,11 @@
     Enumerable.prototype.groupBy = function groupBy(keySelector, valueSelector, resultTrans, keyEqual) {
       if (keySelector === undefined) keySelector = defaultSelector;
       if (valueSelector === undefined) valueSelector = defaultSelector;
-      if (resultTrans === undefined) resultTrans = function (key, valSeq) {
-        return valSeq;
-      };
 
       var _this = this;
       if (keyEqual) {
         return new Enumerable(_babelRuntimeRegenerator['default'].mark(function callee$2$0() {
-          var groups, _loop, _iterator15, _isArray15, _i15, _ref18, _ret2, _iterator16, _isArray16, _i16, _ref19, group;
+          var groups, _loop, _iterator15, _isArray15, _i15, _ref18, _ret2, _iterator16, _isArray16, _i16, _ref19, group, result;
 
           return _babelRuntimeRegenerator['default'].wrap(function callee$2$0$(context$3$0) {
             while (1) switch (context$3$0.prev = context$3$0.next) {
@@ -1413,7 +1416,7 @@
                   break;
                 }
 
-                return context$3$0.abrupt('break', 24);
+                return context$3$0.abrupt('break', 31);
 
               case 12:
                 _ref19 = _iterator16[_i16++];
@@ -1428,21 +1431,38 @@
                   break;
                 }
 
-                return context$3$0.abrupt('break', 24);
+                return context$3$0.abrupt('break', 31);
 
               case 18:
                 _ref19 = _i16.value;
 
               case 19:
                 group = _ref19;
-                context$3$0.next = 22;
-                return [group.key, resultTrans(group.key, group.values)];
 
-              case 22:
+                if (!resultTrans) {
+                  context$3$0.next = 25;
+                  break;
+                }
+
+                context$3$0.next = 23;
+                return resultTrans(group.key, group.values);
+
+              case 23:
+                context$3$0.next = 29;
+                break;
+
+              case 25:
+                result = asEnumerable(group.values);
+
+                result.key = group.key;
+                context$3$0.next = 29;
+                return result;
+
+              case 29:
                 context$3$0.next = 9;
                 break;
 
-              case 24:
+              case 31:
               case 'end':
                 return context$3$0.stop();
             }
@@ -1450,7 +1470,7 @@
         }));
       } else {
         return new Enumerable(_babelRuntimeRegenerator['default'].mark(function callee$2$0() {
-          var seqMap, _iterator17, _isArray17, _i17, _ref20, x, key, val, _iterator18, _isArray18, _i18, _ref21, valSeq;
+          var seqMap, _iterator17, _isArray17, _i17, _ref20, x, key, val, _iterator18, _isArray18, _i18, _ref21, valSeq, result;
 
           return _babelRuntimeRegenerator['default'].wrap(function callee$2$0$(context$3$0) {
             while (1) switch (context$3$0.prev = context$3$0.next) {
@@ -1517,7 +1537,7 @@
                   break;
                 }
 
-                return context$3$0.abrupt('break', 36);
+                return context$3$0.abrupt('break', 43);
 
               case 23:
                 _ref21 = _iterator18[_i18++];
@@ -1532,7 +1552,7 @@
                   break;
                 }
 
-                return context$3$0.abrupt('break', 36);
+                return context$3$0.abrupt('break', 43);
 
               case 29:
                 _ref21 = _i18.value;
@@ -1540,14 +1560,31 @@
               case 30:
                 key = _ref21[0];
                 valSeq = _ref21[1];
-                context$3$0.next = 34;
-                return [key, resultTrans(key, valSeq)];
 
-              case 34:
+                if (!resultTrans) {
+                  context$3$0.next = 37;
+                  break;
+                }
+
+                context$3$0.next = 35;
+                return resultTrans(key, valSeq);
+
+              case 35:
+                context$3$0.next = 41;
+                break;
+
+              case 37:
+                result = asEnumerable(valSeq);
+
+                result.key = key;
+                context$3$0.next = 41;
+                return result;
+
+              case 41:
                 context$3$0.next = 20;
                 break;
 
-              case 36:
+              case 43:
               case 'end':
                 return context$3$0.stop();
             }
@@ -2305,7 +2342,7 @@
 
     Enumerable.prototype._minMaxImpl = function _minMaxImpl(keySelector, comp) {
       var minMaxKey = undefined;
-      var minMaxVal = undefined;
+      var minMaxItem = undefined;
       var index = 0;
       for (var _iterator30 = this, _isArray30 = Array.isArray(_iterator30), _i30 = 0, _iterator30 = _isArray30 ? _iterator30 : _babelRuntimeCoreJsGetIterator['default'](_iterator30);;) {
         var _ref33;
@@ -2319,20 +2356,20 @@
           _ref33 = _i30.value;
         }
 
-        var val = _ref33;
+        var item = _ref33;
 
-        var key = keySelector(val, index++);
+        var key = keySelector(item, index++);
         if (minMaxKey === undefined) {
           minMaxKey = key;
-          minMaxVal = val;
+          minMaxItem = item;
         } else {
           if (comp(key, minMaxKey)) {
             minMaxKey = key;
-            minMaxVal = val;
+            minMaxItem = item;
           }
         }
       }
-      return minMaxVal;
+      return minMaxKey;
     };
 
     Enumerable.prototype.min = function min() {
@@ -2480,9 +2517,10 @@
       return result;
     };
 
-    Enumerable.prototype.toMap = function toMap(keySelector, valueSelector, resultTrans) {
-      var grouped = this.groupBy(keySelector, valueSelector, resultTrans);
-      return new _babelRuntimeCoreJsMap['default'](grouped);
+    Enumerable.prototype.toMap = function toMap(keySelector, valueSelector) {
+      return new _babelRuntimeCoreJsMap['default'](this.select(function (x) {
+        return [keySelector(x), valueSelector(x)];
+      }));
     };
 
     Enumerable.prototype.forEach = function forEach(op) {

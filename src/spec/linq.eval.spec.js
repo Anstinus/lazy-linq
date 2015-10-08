@@ -435,7 +435,7 @@ describe('linq lib -> eval members ->', function () {
       });
 
       it('when @trans is custom, should return min defined by @trans result', function () {
-        expect(data.min(x => x * -1)).toBe(3);
+        expect(data.min(x => x * -1)).toBe(-3);
       });
     });
 
@@ -458,7 +458,7 @@ describe('linq lib -> eval members ->', function () {
       });
 
       it('when @trans is custom, should return max defined by @trans result', function () {
-        expect(data.max(x => x * -1)).toBe(1);
+        expect(data.max(x => x * -1)).toBe(-1);
       });
     });
 

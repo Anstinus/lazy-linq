@@ -787,19 +787,19 @@ class Enumerable {
 
   _minMaxImpl(keySelector, comp) {
     let minMaxKey = undefined;
-    let minMaxVal = undefined;
+    let minMaxItem = undefined;
     let index = 0;
-    for (let val of this) {
-      let key = keySelector(val, index++);
+    for (let item of this) {
+      let key = keySelector(item, index++);
       if (minMaxKey === undefined) {
-        [minMaxKey, minMaxVal] = [key, val];
+        [minMaxKey, minMaxItem] = [key, item];
       } else {
         if (comp(key, minMaxKey)) {
-          [minMaxKey, minMaxVal] = [key, val];
+          [minMaxKey, minMaxItem] = [key, item];
         }
       }
     }
-    return minMaxVal;
+    return minMaxKey;
   }
 
   min(keySelector = x => x) {
