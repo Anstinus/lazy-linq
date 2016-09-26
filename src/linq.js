@@ -10,9 +10,9 @@
 // is natually ordered or contains equal iterms (depend on 'compGroupChecker').
 function* genSubSequences(seq, comp, compGroupChecker) {
   let lastVal;
-  let subSeq;
+  let subSeq = [];
   for (let val of seq) {
-    if (lastVal === undefined) {
+    if (subSeq.length == 0) {
       subSeq = [val];
     } else if (compGroupChecker(comp(lastVal, val))) {
       subSeq.push(val);
@@ -22,9 +22,13 @@ function* genSubSequences(seq, comp, compGroupChecker) {
     }
     lastVal = val;
   }
-  if (subSeq) {
+  if (subSeq && subSeq.length != 0) {
     yield subSeq;
   }
+}
+
+function isUndefinedOrNull(val) {
+  return val === undefined || val === null;
 }
 
 // merge values of two sorted sequences into one sequence
@@ -43,7 +47,13 @@ function* genTwoMergedSequence(seq1, seq2, comp) {
       yield elem1.value;
       elem1 = seqIter1.next();
     } else {
-      if (comp(elem1.value, elem2.value) <= 0) {
+      if (isUndefinedOrNull(elem1.value)) {
+        yield elem1.value;
+        elem1 = seqIter1.next();
+      } else if (isUndefinedOrNull(elem2.value)) {
+        yield elem2.value;
+        elem2 = seqIter2.next();
+      } else if (comp(elem1.value, elem2.value) <= 0) {
         yield elem1.value;
         elem1 = seqIter1.next();
       } else {
@@ -59,30 +69,25 @@ function* genPairMergedSequences(firstSeq, secondSeq, seqIter, comp) {
   let seq1 = firstSeq;
   let seq2 = secondSeq;
   while (true) {
-    if (seq1 && seq2) {
-      let localSeq1 = seq1;
-      let localseq2 = seq2;
-      yield {
-        [Symbol.iterator]: function () {
-          return genTwoMergedSequence(localSeq1, localseq2, comp)
-        }
-      };
-      seq1 = seq2 = undefined;
-    }
+    let localSeq1 = seq1;
+    let localSeq2 = seq2;
+    yield {
+      [Symbol.iterator]: function () {
+        return genTwoMergedSequence(localSeq1, localSeq2, comp)
+      }
+    };
 
-    let elem = seqIter.next()
-    if (elem.done) {
-      if (seq1) {
-        yield seq1;
-      }
+    let elem1 = seqIter.next();
+    if (elem1.done) {
       return;
-    } else {
-      if (!seq1) {
-        seq1 = elem.value;
-      } else {
-        seq2 = elem.value;
-      }
     }
+    let elem2 = seqIter.next();
+    if (elem2.done) {
+      yield elem1.value;
+      return;
+    }
+    seq1 = elem1.value;
+    seq2 = elem2.value;
   }
 }
 

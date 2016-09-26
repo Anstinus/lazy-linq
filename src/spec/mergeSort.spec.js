@@ -15,7 +15,7 @@ function iterToArray(iter) {
 describe('sort algo -> ', function () {
   describe('genSubSequences()', function () {
 
-    it('should divided sequence by natual order', function () {
+    it('should divided sequence by natural order', function () {
       let data = [2, 1, 3, 6, 4, 2, 2, 5, 3, 4];
       let result = iterToArray(algo.genSubSequences(data, (x, y) => x - y, x => x <= 0));
       expect(result).toEqual([
@@ -60,6 +60,50 @@ describe('sort algo -> ', function () {
       let result = iterToArray(algo.genSubSequences(data, (x, y) => x - y, x => x <= 0));
       expect(result.length).toBe(0);
     });
+
+    it('should divide undefined separately', function () {
+      let data = [2, 1, 3, undefined, 6, 4, 2, 2, 5, 3, 4];
+      let result = iterToArray(algo.genSubSequences(data, (x, y) => x - y, x => x <= 0));
+      expect(result).toEqual([
+        [2],
+        [1, 3],
+        [undefined],
+        [6],
+        [4],
+        [2, 2, 5],
+        [3, 4]
+      ]);
+    });
+
+    it('should divide multiple undefined separately', function () {
+      let data = [2, 1, 3, undefined, undefined, 6, 4, 2, 2, 5, 3, 4];
+      let result = iterToArray(algo.genSubSequences(data, (x, y) => x - y, x => x <= 0));
+      expect(result).toEqual([
+        [2],
+        [1, 3],
+        [undefined],
+        [undefined],
+        [6],
+        [4],
+        [2, 2, 5],
+        [3, 4]
+      ]);
+    });
+
+    it('should divide invalid value separately', function () {
+      let data = [2, 1, 3, null, 'abc', 6, 4, 2, 2, 5, 3, 4];
+      let result = iterToArray(algo.genSubSequences(data, (x, y) => x - y, x => x <= 0));
+      expect(result).toEqual([
+        [2],
+        [1, 3],
+        [null],
+        ['abc'],
+        [6],
+        [4],
+        [2, 2, 5],
+        [3, 4]
+      ]);
+    });
   });
 
   describe('genTwoMergedSequence()', function () {
@@ -86,6 +130,37 @@ describe('sort algo -> ', function () {
 
       var result = iterToArray(algo.genTwoMergedSequence(data1, [], (x, y) => x - y));
       expect(result).toEqual([1, 3, 4]);
+    });
+
+    it('should merge undefined alone', function () {
+      let data1 = [1, 3, 4];
+      let data2 = [undefined];
+      // let data3 = [2, 5];
+      let result = iterToArray(algo.genTwoMergedSequence(data1, data2, (x, y) => x - y));
+      expect(result).toEqual([undefined, 1, 3, 4]); // the position of 'undefined' is not important
+    });
+
+    it('should merge undefined mixed', function () {
+      let data1 = [2, 4, undefined];
+      let data2 = [1, 3];
+      // let data3 = [2, 5];
+      let result = iterToArray(algo.genTwoMergedSequence(data1, data2, (x, y) => x - y));
+      expect(result).toEqual([1, 2, 3, 4, undefined ]); // the position of 'undefined' is not important
+    });
+
+    it('should merge undefined mixed in middle', function () {
+      let data1 = [2, undefined, 4];
+      let data2 = [1, 3];
+      // let data3 = [2, 5];
+      let result = iterToArray(algo.genTwoMergedSequence(data1, data2, (x, y) => x - y));
+      expect(result).toEqual([1, 2, undefined, 3, 4 ]); // the position of 'undefined' is not important
+    });
+
+    it('should merge undefined in head of array', function () {
+      let data1 = [undefined, 1];
+      let data2 = [1, 3];
+      let result = iterToArray(algo.genTwoMergedSequence(data1, data2, (x, y) => x - y));
+      expect(result).toEqual([undefined, 1, 1, 3]); // the position of 'undefined' is not important
     });
   });
 
@@ -134,6 +209,13 @@ describe('sort algo -> ', function () {
 
       expect(result).toEqual([1, 1, 2, 4]);
     });
+
+    it('when sequence has undefined, should merge correctly', function () {
+      let data = [[1, 2], [undefined], [1, 3]];
+      let result = iterToArray(algo.genMergedAndSortedSequence(data[Symbol.iterator](), (x, y) => x - y));
+
+      expect(result).toEqual([undefined, 1, 1, 2, 3]);
+    });
   });
 
   describe('genMergeSort()', function () {
@@ -177,6 +259,13 @@ describe('sort algo -> ', function () {
       let result = iterToArray(algo.genMergeSort(data, (x, y) => x[0] < y[0] ? -1 : (x[0] === y[0] ? 0 : 1)));
 
       expect(result).toEqual(['aa', 'ab', 'bd', 'bb', 'cc']);
+    });
+
+    it('should sort correctly with undefined', function () {
+      let data = [3, 2, 7, 9, undefined, 5, 0];
+      let result = iterToArray(algo.genMergeSort(data, (x, y) => x - y));
+
+      expect(result).toEqual([undefined, 0, 2, 3, 5, 7, 9]);
     });
   });
 
