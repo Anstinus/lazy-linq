@@ -2,16 +2,16 @@
 A full port of LINQ for javascript. It works fully in 'lazy' mode for the best performance.
 
 ## Introduction
-This library is written in ES6 and transpired using Babel. It implements all API from .Net static class `System.Linq.Enumerable`. 
+This library is written in ES6 and transpiled using Babel. It implements all API from .Net static class `System.Linq.Enumerable`. 
 
 By levering the power of `generator` in ES6, this library works in a lazy(or deferred) way as in .NET -- Instead of doing computing on the whole sequence at once, it would only do necessary computing while you iterating through the sequence.
 
 ## Installation and usage
-The code is written is ES6 and transpired into different format so you can easily integrate it into your project.
+The code is written is ES6 and transpiled into different format so you can easily integrate it into your project.
 
 * `src/linq.js`: Source code written in ES6. You could choose to use this file directly.
-* `linq.js`: Transpired with Babel runtime mode. Use in server side or in browser with proper module loader.
-* `linq-browser.js`: Transpired with Babel. Use in browser with `browser-polyfill.js`.
+* `linq.js`: Transpiled with Babel runtime mode. Use in server side or in browser with proper module loader.
+* `linq-browser.js`: Transpiled with Babel. Use in browser with `browser-polyfill.js`.
 
 
 **Details are explained below:**
@@ -62,7 +62,7 @@ data.select(function(x) { return x * 2}).forEach(function(x) { console.log(x); }
 
 ### Use in browsers when you're already using ES6
 
-You should use the linq code written in ES6 rather than the transpired one and feed it to your ES6 transpiring engine along with all your other js files.
+You should use the linq code written in ES6 rather than the transpiled one and feed it to your ES6 transpiling engine along with all your other js files.
 
 * suggest to copy the source file to 'local' location first. This could avoid many problems...
 ```js
@@ -82,9 +82,9 @@ this.linq = linq;
 angular.module('myModule').constant('linq', linq); // make 'linq' be injectable in controller/service/etc.
 ```
 
-#### Specially when you are using `webpack` and [babel-loader](https://github.com/babel/babel-loader) (with `runtime` option)
+#### Using `webpack` and [babel-loader](https://github.com/babel/babel-loader) (with `runtime` option)
 
-* Simplely `import` the transpired linq.js in you `index.js`
+* Simply `import` the transpiled linq.js in you `index.js`
 ```js
 // assuming index.js is in 'src/app/' folder
 import * as linq from '../../node_components/lazy-linq/linq';
