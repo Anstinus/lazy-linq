@@ -70,9 +70,11 @@ interface IEnumerable<TSource> {
   firstAtOrDefault(index: number): TSource | undefined;
   firstAt(index: number): TSource;
   first(pred?: Predicate<TSource>): TSource;
+  firstOrDefault(pred?: Predicate<TSource>): TSource | undefined;
   lastAtOrDefault(index: number): TSource | undefined;
   lastAt(index: number): TSource;
   last(pred?: Predicate<TSource>): TSource;
+  lastOrDefault(pred?: Predicate<TSource>): TSource | undefined;
   defaultIfEmpty(val: TSource): IEnumerable<TSource>;
   sequenceEqual(second: IEnumerable<TSource>): boolean;
   min<TKey>(keySelector?: Func1<TSource, TKey>): TSource;
