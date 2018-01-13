@@ -61,8 +61,8 @@ interface IEnumerable<TSource> {
   except(second: IEnumerable<TSource>): IEnumerable<TSource>;
   all(pred: Predicate<TSource>): boolean;
   any(pred: Predicate<TSource>): boolean;
-  singleOrDefault(): TSource | undefined;
-  single(): TSource;
+  singleOrDefault(pred?: Predicate<TSource>): TSource | undefined;
+  single(pred?: Predicate<TSource>): TSource;
   count(pred: Predicate<TSource>): number;
   contains(value: TSource): boolean;
   elementAtOrDefault(index: number): TSource | undefined;
